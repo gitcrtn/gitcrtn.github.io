@@ -1,9 +1,9 @@
 {
  "id": "skate",
  "title": "skate",
- "version": "0.10.14",
+ "version": "0.10.22",
  "description": "左スティックで曲がり、右スティックをはじいて技を出す、3D のスケートボード。2 分で得点を競う",
- "built": "2026-10-19T08:40:24+09:00",
+ "built": "2026-10-20T00:36:53+09:00",
  "programs": {
   "g3d": {
    "wasm": "rgbweb/programs/g3d.wasm",

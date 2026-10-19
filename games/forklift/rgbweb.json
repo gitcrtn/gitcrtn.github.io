@@ -1,0 +1,37 @@
+{
+ "id": "forklift",
+ "title": "フォークリフト",
+ "version": "0.11",
+ "description": "フォークリフトで、荷物を枠の中へ運ぶ。左スティックで走る、右スティックでカメラを回す、X / B でリフトを上げ下げ。START でメニュー",
+ "built": "2026-10-20T01:14:02+09:00",
+ "programs": {
+  "g3d": {
+   "wasm": "rgbweb/programs/g3d.wasm",
+   "count": 1
+  }
+ },
+ "keyboard": {},
+ "touch": {
+  "sticks": {
+   "left": true,
+   "right": true
+  },
+  "hide": [
+   "l1",
+   "l2",
+   "r1",
+   "r2",
+   "y"
+  ],
+  "layout": {}
+ },
+ "help": {
+  "hide": [
+   "l1",
+   "l2",
+   "r1",
+   "r2",
+   "y"
+  ]
+ }
+}

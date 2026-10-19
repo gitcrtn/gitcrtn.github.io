@@ -1,9 +1,9 @@
 {
  "id": "padtest",
  "title": "PAD TEST",
- "version": "0.13",
+ "version": "0.14",
  "description": "ボタンとスティックを、3D のパッドで、動かして光らせる。押すと音が鳴る。START でメニュー",
- "built": "2026-10-19T01:56:11+09:00",
+ "built": "2026-10-20T00:47:19+09:00",
  "programs": {
   "g3d": {
    "wasm": "rgbweb/programs/g3d.wasm",

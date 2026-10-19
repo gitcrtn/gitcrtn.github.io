@@ -1,0 +1,30 @@
+{
+ "id": "racer",
+ "title": "ドリフトレーサー",
+ "version": "0.41",
+ "description": "ドリフトでニトロをためて、ライバル 5 台と 3 周を競う、3D のレース。賞金で、車を買える",
+ "built": "2026-10-19T22:02:58+09:00",
+ "programs": {
+  "g3d": {
+   "wasm": "rgbweb/programs/g3d.wasm",
+   "count": 1
+  }
+ },
+ "keyboard": {},
+ "touch": {
+  "sticks": {
+   "left": true,
+   "right": false
+  },
+  "hide": [
+   "l1"
+  ],
+  "layout": {}
+ },
+ "help": {
+  "hide": [
+   "l1",
+   "right_stick"
+  ]
+ }
+}

@@ -1,0 +1,36 @@
+{
+ "id": "breakout",
+ "title": "ブロック崩し",
+ "version": "0.8",
+ "description": "左右でパドルを動かす。A でボールを発射。全 5 面。START でメニュー",
+ "built": "2026-10-19T22:01:50+09:00",
+ "programs": {},
+ "keyboard": {},
+ "touch": {
+  "sticks": {
+   "left": false,
+   "right": false
+  },
+  "hide": [
+   "l1",
+   "l2",
+   "r1",
+   "r2",
+   "x",
+   "y"
+  ],
+  "layout": {}
+ },
+ "help": {
+  "hide": [
+   "l1",
+   "l2",
+   "left_stick",
+   "r1",
+   "r2",
+   "right_stick",
+   "x",
+   "y"
+  ]
+ }
+}

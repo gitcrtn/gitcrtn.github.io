@@ -1,0 +1,37 @@
+{
+ "id": "skate",
+ "title": "skate",
+ "version": "0.10.14",
+ "description": "左スティックで曲がり、右スティックをはじいて技を出す、3D のスケートボード。2 分で得点を競う",
+ "built": "2026-10-19T08:40:24+09:00",
+ "programs": {
+  "g3d": {
+   "wasm": "rgbweb/programs/g3d.wasm",
+   "count": 1
+  }
+ },
+ "keyboard": {},
+ "touch": {
+  "sticks": {
+   "left": true,
+   "right": true
+  },
+  "hide": [
+   "l1",
+   "l2",
+   "r2",
+   "x",
+   "y"
+  ],
+  "layout": {}
+ },
+ "help": {
+  "hide": [
+   "l1",
+   "l2",
+   "r2",
+   "x",
+   "y"
+  ]
+ }
+}

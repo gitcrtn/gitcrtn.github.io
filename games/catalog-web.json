@@ -1,0 +1,50 @@
+{
+ "catalog_web": 2,
+ "games": [
+  {
+   "id": "padtest",
+   "title": "PAD TEST",
+   "version": "0.13",
+   "description": "ボタンとスティックを、3D のパッドで、動かして光らせる。押すと音が鳴る。START でメニュー",
+   "url": "padtest/",
+   "thumbnail": "padtest/thumbnail.png",
+   "built": "2026-10-19T01:56:11+09:00"
+  },
+  {
+   "id": "skate",
+   "title": "skate",
+   "version": "0.10.14",
+   "description": "左スティックで曲がり、右スティックをはじいて技を出す、3D のスケートボード。2 分で得点を競う",
+   "url": "skate/",
+   "thumbnail": "skate/thumbnail.png",
+   "built": "2026-10-19T08:40:24+09:00"
+  },
+  {
+   "id": "invaders",
+   "title": "インベーダー",
+   "version": "0.7",
+   "description": "左右で自機を動かし、A で撃つ。降りてくる隊列を全滅させる。START でメニュー",
+   "url": "invaders/",
+   "thumbnail": "invaders/thumbnail.png",
+   "built": "2026-10-19T21:50:02+09:00"
+  },
+  {
+   "id": "breakout",
+   "title": "ブロック崩し",
+   "version": "0.8",
+   "description": "左右でパドルを動かす。A でボールを発射。全 5 面。START でメニュー",
+   "url": "breakout/",
+   "thumbnail": "breakout/thumbnail.png",
+   "built": "2026-10-19T22:01:50+09:00"
+  },
+  {
+   "id": "racer",
+   "title": "ドリフトレーサー",
+   "version": "0.41",
+   "description": "ドリフトでニトロをためて、ライバル 5 台と 3 周を競う、3D のレース。賞金で、車を買える",
+   "url": "racer/",
+   "thumbnail": "racer/thumbnail.png",
+   "built": "2026-10-19T22:02:58+09:00"
+  }
+ ]
+}

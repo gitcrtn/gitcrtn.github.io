@@ -1,0 +1,35 @@
+{
+ "id": "invaders",
+ "title": "インベーダー",
+ "version": "0.7",
+ "description": "左右で自機を動かし、A で撃つ。降りてくる隊列を全滅させる。START でメニュー",
+ "built": "2026-10-19T21:50:02+09:00",
+ "programs": {},
+ "keyboard": {},
+ "touch": {
+  "sticks": {
+   "left": true,
+   "right": false
+  },
+  "hide": [
+   "l1",
+   "l2",
+   "r1",
+   "r2",
+   "x",
+   "y"
+  ],
+  "layout": {}
+ },
+ "help": {
+  "hide": [
+   "l1",
+   "l2",
+   "r1",
+   "r2",
+   "right_stick",
+   "x",
+   "y"
+  ]
+ }
+}

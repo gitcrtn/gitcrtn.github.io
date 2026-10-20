@@ -49,11 +49,11 @@
   {
    "id": "cleaner",
    "title": "ピカピカおそうじ",
-   "version": "0.5.2",
-   "description": "十字キーで四角を動かす。A で色を変える（音が鳴る）。START でメニュー",
+   "version": "0.5.3",
+   "description": "掃除機を動かして、散らかった部屋のゴミを吸いこもう。全部吸うと部屋がピカピカに。3 つの部屋で、ベストタイムをめざす",
    "url": "cleaner/",
    "thumbnail": "cleaner/thumbnail.png",
-   "built": "2026-10-20T01:08:34+09:00"
+   "built": "2026-10-20T08:28:30+09:00"
   },
   {
    "id": "forklift",

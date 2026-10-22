@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141417">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>web303</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #141417; --panel: #1d1d22; --cell: #26262d; --line: #2e2e36;
+    --fg: #ece9e4; --muted: #8a877f;
+    --on: #e2683c; --acc: #f2c14e; --slide: #6fb7e8; --tie: #a98ee0; --auto: #5fd38d; --rec: #e0404a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 14px/1.2 system-ui, -apple-system, sans-serif; }
+  body {
+    height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior: none;
+    display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px;
+    max-width: 560px; margin: 0 auto;
+    padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
+    touch-action: manipulation; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  button { font: inherit; color: inherit; background: var(--cell); border: 0; border-radius: 10px; min-height: 44px; padding: 0 10px; cursor: pointer; }
+  button.on { background: var(--on); color: #fff; }
+
+
+  /* top bar */
+  header { display: flex; align-items: center; gap: 8px; }
+  #play { width: 64px; height: 52px; display: grid; place-items: center; padding: 0; }
+  #play svg { width: 24px; height: 24px; fill: currentColor; }
+  #play .stop, #play.on .play { display: none; }
+  #play.on .stop { display: block; }
+  .bpm { display: flex; align-items: center; margin-left: auto; }
+  .bpm button { width: 40px; padding: 0; }
+  #tempo { width: 52px; text-align: center; font: inherit; font-size: 18px; font-weight: 700; color: inherit; background: none; border: 0; font-variant-numeric: tabular-nums; }
+  .bpm .lbl { color: var(--muted); font-size: 11px; margin-right: 4px; }
+  @media (max-width: 380px) { .bpm .lbl { display: none; } }
+  #dice { width: 52px; height: 52px; font-size: 26px; padding: 0; }
+  #menu { width: 40px; height: 52px; padding: 0; font-size: 22px; letter-spacing: 1px; }
+
+  /* memory sheet */
+  #sheet { position: fixed; inset: 0; z-index: 5; background: rgb(0 0 0 / 0.55); display: flex; align-items: flex-end; justify-content: center; }
+  #sheet[hidden] { display: none; }
+  .sheet-body { width: 100%; max-width: 560px; max-height: 92dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--panel); border-radius: 18px 18px 0 0; padding: 14px 16px max(16px, env(safe-area-inset-bottom)); display: grid; gap: 0; }
+  .sheet-head { display: flex; align-items: center; }
+  #version { margin-right: auto; white-space: pre; font-size: 13px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .sheet-body details { border-top: 1px solid rgb(255 255 255 / 0.08); }
+  .sheet-body summary { list-style: none; display: flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); cursor: pointer; }
+  .sheet-body summary::-webkit-details-marker { display: none; }
+  .sheet-body summary::after { content: '▸'; margin-left: auto; transition: transform 0.15s; }
+  .sheet-body details[open] summary::after { transform: rotate(90deg); }
+  .sheet-body details > :not(summary) { margin-bottom: 12px; }
+  #presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  #presets button { min-height: 40px; font-size: 13px; text-align: left; padding: 0 12px; }
+  #sheetClose { width: 44px; padding: 0; font-size: 18px; }
+  #slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .slot { height: 60px; font-size: 20px; font-weight: 700; color: var(--muted); -webkit-touch-callout: none; }
+  .slot.filled { background: var(--on); color: #fff; }
+  .slot:active { transform: scale(0.96); }
+  .sheet-hint { margin: 0; font-size: 12px; color: var(--muted); }
+  .len { display: flex; align-items: center; gap: 8px; }
+  button.wide { width: 100%; height: 48px; }
+  .len span { margin-right: auto; color: var(--muted); font-size: 13px; }
+  .len button { width: 48px; padding: 0; font-size: 18px; }
+  .len b { width: 32px; text-align: center; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .files { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .files button { height: 48px; }
+  #toast { position: fixed; left: 50%; top: calc(16px + env(safe-area-inset-top)); transform: translate(-50%, -20px); z-index: 20; background: var(--fg); color: #222; padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s; white-space: nowrap; }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* pattern strip */
+  #strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; touch-action: none; }
+  .step { position: relative; height: 52px; border-radius: 8px; background: var(--cell); overflow: hidden; }
+  .step .bar { position: absolute; left: 4px; right: 4px; height: 6px; border-radius: 3px; background: var(--on); display: none; }
+  .step.has-bar .bar { display: block; }
+  .step.tie .bar { opacity: 0.45; }
+  .step.acc .bar { background: var(--acc); }
+  .step .name { position: absolute; left: 0; right: 0; top: 3px; text-align: center; font-size: 10px; color: var(--muted); }
+  .step.note .name { color: var(--fg); }
+  .step.slide::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: var(--slide); }
+  .step.outside { opacity: 0.25; }
+  .step.auto::before { content: ''; position: absolute; left: 50%; bottom: 3px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--auto); }
+  .step.now { box-shadow: inset 0 0 0 2px var(--fg); background: #33333c; }
+
+  /* XY pad */
+  #pads { min-height: 0; display: grid; grid-template-columns: 1fr; gap: 6px; }
+  #pads.dual { grid-template-columns: 1fr 1fr; }
+  .pad[hidden] { display: none; }
+  .pad { position: relative; min-height: 0; border-radius: 16px; background: var(--panel); touch-action: none; overflow: hidden; }
+  .pad canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .padwrap { min-height: 0; display: grid; grid-template-rows: auto 1fr; gap: 6px; }
+  .targets { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  #rec { -webkit-touch-callout: none; }
+  #rec .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--rec); }
+  #rec.on { background: var(--rec); color: #fff; }
+  #rec.on .dot { background: #fff; animation: blink 1s steps(2) infinite; }
+  #rec.has:not(.on) { color: var(--auto); }
+  @keyframes blink { 50% { opacity: 0; } }
+  .targets button { min-height: 40px; padding: 2px 0; font-size: 10px; line-height: 1.25; font-weight: 700; letter-spacing: 0.03em; color: var(--muted); }
+  .targets button.on { color: #fff; }
+  .padNote { position: absolute; left: 12px; bottom: 26px; font-size: 22px; font-weight: 700; pointer-events: none; }
+  .pad .axis { position: absolute; font-size: 11px; color: var(--muted); pointer-events: none; letter-spacing: 0.06em; }
+  .pad .x { right: 12px; bottom: 10px; }
+  .pad .y { left: 12px; top: 10px; }
+  .pad .axis b { color: var(--fg); font-weight: 600; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .pad.seq .axis, .pad:not(.seq) .padNote { display: none; }
+
+  /* knobs */
+  #knobs { display: grid; grid-template-columns: repeat(8, 1fr); gap: 0; }
+  .knob { display: grid; justify-items: center; touch-action: none; cursor: ns-resize; outline: none; border-radius: 10px; padding: 2px 0; }
+  .knob:focus-visible { box-shadow: 0 0 0 2px var(--on); }
+  .knob.active { background: var(--cell); }
+  .knob svg { width: 40px; height: 40px; }
+  .knob .track { fill: none; stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+  .knob .fill { fill: none; stroke: var(--on); stroke-width: 6; stroke-linecap: round; }
+  .knob .pointer { stroke: var(--fg); stroke-width: 4; stroke-linecap: round; }
+  .knob-label { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; }
+  .knob-value { font-size: 9px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  @media (max-height: 600px) {
+    .step { height: 40px; }
+    .knob svg { width: 36px; height: 36px; }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HL2VHND370"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HL2VHND370');
+</script>
+</head>
+<body>
+
+<header>
+  <button id="play" aria-label="Play">
+    <svg class="play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+    <svg class="stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>
+  </button>
+  <span class="bpm">
+    <span class="lbl">BPM</span>
+    <button id="tempoDown" aria-label="Tempo down">−</button>
+    <input id="tempo" type="number" inputmode="numeric" min="40" max="300" aria-label="Tempo">
+    <button id="tempoUp" aria-label="Tempo up">+</button>
+  </span>
+  <button id="dice" aria-label="Random pattern">🎲</button>
+  <button id="menu" aria-label="Memory">⋯</button>
+</header>
+
+<section>
+  <div id="strip"></div>
+</section>
+
+<div class="padwrap">
+  <div class="targets">
+    <button data-target="filter" class="on">CUT<br>RES</button>
+    <button data-target="env">ENV<br>DECAY</button>
+    <button data-target="acc">ACC<br>CUT</button>
+    <button data-target="osc">WAVE<br>TUNE</button>
+    <button data-target="note">NOTE<br>SLIDE</button>
+    <button data-target="dual">CUT·RES<br>+ENV·DEC</button>
+    <button id="rec" aria-label="Record automation (long-press: clear)"><i class="dot"></i><br><span id="recCycle">REC</span></button>
+  </div>
+  <div id="pads">
+    <div class="pad" id="pad" data-target="filter">
+      <span class="padNote"></span>
+      <span class="axis y"><span class="yName"></span><b class="yValue"></b></span>
+      <span class="axis x"><span class="xName"></span><b class="xValue"></b></span>
+    </div>
+    <div class="pad" id="pad2" hidden>
+      <span class="padNote"></span>
+      <span class="axis y"><span class="yName"></span><b class="yValue"></b></span>
+      <span class="axis x"><span class="xName"></span><b class="xValue"></b></span>
+    </div>
+  </div>
+</div>
+
+<div id="knobs"></div>
+
+<div id="sheet" hidden>
+  <div class="sheet-body" role="dialog" aria-label="Memory">
+    <div class="sheet-head">
+      <span id="version"></span>
+      <button id="sheetClose" aria-label="Close">✕</button>
+    </div>
+    <details name="menu">
+      <summary>PRESETS</summary>
+      <div id="presets"></div>
+    </details>
+    <details name="menu">
+      <summary>MEMORY</summary>
+      <div id="slots"></div>
+      <p class="sheet-hint">タップで呼び出し（空きなら保存）／長押しで上書き保存</p>
+    </details>
+    <details name="menu">
+      <summary>PATTERN</summary>
+      <div class="len">
+        <span>パターンの長さ</span>
+        <button id="lengthDown" aria-label="Fewer steps">−</button>
+        <b id="length"></b>
+        <button id="lengthUp" aria-label="More steps">+</button>
+      </div>
+      <div class="len">
+        <span>オートメーションの周回</span>
+        <button id="autoCyclesDown" aria-label="Fewer loops">−</button>
+        <b id="autoCycles"></b>
+        <button id="autoCyclesUp" aria-label="More loops">+</button>
+      </div>
+      <button id="clearAuto" class="wide">オートメーションを消す</button>
+      <p class="sheet-hint">● REC を押して再生中にパッドやツマミを動かすと、ステップごとに記録されます（REC 長押しでも消去）</p>
+    </details>
+    <details name="menu">
+      <summary>FILE</summary>
+      <div class="files">
+        <button id="export">JSON 書き出し</button>
+        <button id="import">JSON 読み込み</button>
+      </div>
+    </details>
+    <input id="importFile" type="file" accept=".json,application/json" hidden>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

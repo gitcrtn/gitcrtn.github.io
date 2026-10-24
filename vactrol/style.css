@@ -238,6 +238,10 @@ button:active { transform: translateY(1px); }
   min-height: 48px;
   padding: 0 18px;
 }
+.scope-button { flex: none; min-height: 48px; min-width: 48px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+.scope-button svg { width: 24px; height: 24px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; }
+.scope-button[aria-pressed="true"] { border-color: var(--accent); background: #2e2a1f; }
+.scope-button[aria-pressed="true"] svg { stroke: var(--accent); }
 .power-led {
   width: 10px; height: 10px; border-radius: 50%;
   background: #3b1513;
@@ -326,38 +330,18 @@ button:active { transform: translateY(1px); }
 .sw .q-led.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
 .sw[aria-pressed="true"] { border-color: var(--accent); background: #2e2a1f; color: var(--accent); }
 
+/* shown and hidden by the SCOPE button at the top */
 .scope {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 8px;
   margin-bottom: 14px;
 }
-.scope-view { flex: 1; min-height: 0; position: relative; }
+.scope[hidden] { display: none; }
+.scope-view { position: relative; height: 180px; }
 /* absolutely placed so the canvas never adds height of its own */
 .scope canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border-radius: 8px; background: #0b0d10; }
-.scope-toggle {
-  display: none;
-  align-items: center;
-  border: 0;
-  background: transparent;
-  padding: 6px 4px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-.scope-toggle .chev { margin-left: auto; }
-.scope-toggle[aria-expanded="true"] .chev { transform: rotate(45deg); }
-/* not enough room below the panel: the scope folds and opens to a fixed height */
-.scope.folding { flex: none; }
-.scope.folding .scope-toggle { display: flex; }
-.scope.folding .scope-view { display: none; }
-.scope.folding.open .scope-view { display: block; flex: none; height: 180px; margin-top: 6px; }
 
 .status { color: var(--danger); font-size: 13px; text-align: center; margin: 4px 0 0; }
 .status:empty { display: none; }

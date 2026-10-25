@@ -15,7 +15,6 @@
     <path d="M30 150 H50 M34 155 H46 M38 160 H42"/>
   </g>
   <circle class="w" cx="109" cy="90" r="4"/>
-  <path class="w thin" d="M73 95 h10 v-10 h5 M77 95 v-10 h10"/>
   <path class="head" d="M104 32 l-8 1 l5 5 z"/>
   <circle class="dot" cx="40" cy="90" r="3"/><circle class="dot" cx="140" cy="90" r="3"/>
   <text class="lbl" x="90" y="24" text-anchor="middle">CLOCK <tspan class="val">1MΩ</tspan></text>
@@ -87,7 +86,6 @@
     <path d="M30 480 H50 M34 485 H46 M38 490 H42"/>
   </g>
   <circle class="w" cx="109" cy="420" r="4"/>
-  <path class="w thin" d="M73 425 h10 v-10 h5 M77 425 v-10 h10"/>
   <path class="head" d="M104 362 l-8 1 l5 5 z"/>
   <circle class="dot" cx="40" cy="420" r="3"/><circle class="dot" cx="140" cy="420" r="3"/>
   <text class="lbl" x="90" y="354" text-anchor="middle">GATE <tspan class="val">1MΩ</tspan></text>
@@ -97,7 +95,6 @@
   <!-- ===== 4093 tone oscillator -> output ===== -->
   <path class="w" d="M330 382 H355 A25 25 0 0 1 355 432 H330 Z"/>
   <circle class="w" cx="384" cy="407" r="4"/>
-  <path class="w thin" d="M341 412 h10 v-10 h5 M345 412 v-10 h10"/>
   <text class="val" x="355" y="452" text-anchor="middle">4093</text>
   <g class="w">
     <path d="M388 407 H507 M515 407 H525"/>
